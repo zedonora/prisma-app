@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 const View = styled.View`
 	justify-content: center;
@@ -9,8 +9,8 @@ const View = styled.View`
 
 const Text = styled.Text``;
 
-export default () => {
+export default () => (
 	<View>
 		<Text>Search</Text>
-	</View>;
-};
+	</View>
+);
