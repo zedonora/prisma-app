@@ -27,7 +27,7 @@ export default ({ navigation }) => {
 	const handleConfirm = async () => {
 		const { value } = confirmInput;
 		if (value === "" || !value.includes(" ")) {
-			return Alert.alert("invalid secret");
+			return Alert.alert("Invalid secret");
 		}
 		try {
 			setLoading(true);
@@ -41,7 +41,6 @@ export default ({ navigation }) => {
 			}
 		} catch (e) {
 			console.log(e);
-
 			Alert.alert("Can't confirm secret");
 		} finally {
 			setLoading(false);
@@ -52,16 +51,12 @@ export default ({ navigation }) => {
 			<View>
 				<AuthInput
 					{...confirmInput}
-					placeholder={"Secret"}
+					placeholder='Secret'
 					returnKeyType='send'
 					onSubmitEditing={handleConfirm}
 					autoCorrect={false}
 				/>
-				<AuthButton
-					loading={loading}
-					onPress={handleConfirm}
-					text={"Confirm"}
-				/>
+				<AuthButton loading={loading} onPress={handleConfirm} text='Confirm' />
 			</View>
 		</TouchableWithoutFeedback>
 	);
