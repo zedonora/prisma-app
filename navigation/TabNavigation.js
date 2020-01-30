@@ -8,6 +8,7 @@ import Notifications from "../screens/Tabs/Notifications";
 import Profile from "../screens/Tabs/Profile";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcon";
+import { stackStyles } from "./config";
 
 const stackFactory = (initialRoute, customConfig) =>
 	createStackNavigator(
@@ -19,7 +20,8 @@ const stackFactory = (initialRoute, customConfig) =>
 		},
 		{
 			defaultNavigationOptions: {
-				headerTitleAlign: "center"
+				headerTitleAlign: "center",
+				headerStyle: { ...stackStyles }
 			}
 		}
 	);
@@ -31,8 +33,11 @@ export default createBottomTabNavigator(
 				headerTitle: () => <NavIcon name={"logo-instagram"} size={36} />
 			}),
 			navigationOptions: {
-				tabBarIcon: (
-					<NavIcon name={Platform.OS === "ios" ? "ios-home" : "md-home"} />
+				tabBarIcon: ({ focused }) => (
+					<NavIcon
+						focused={focused}
+						name={Platform.OS === "ios" ? "ios-home" : "md-home"}
+					/>
 				)
 			}
 		},
@@ -41,8 +46,11 @@ export default createBottomTabNavigator(
 				title: "Search"
 			}),
 			navigationOptions: {
-				tabBarIcon: (
-					<NavIcon name={Platform.OS === "ios" ? "ios-search" : "md-search"} />
+				tabBarIcon: ({ focused }) => (
+					<NavIcon
+						focused={focused}
+						name={Platform.OS === "ios" ? "ios-search" : "md-search"}
+					/>
 				)
 			}
 		},
@@ -51,8 +59,12 @@ export default createBottomTabNavigator(
 			navigationOptions: {
 				tabBarOnPress: ({ navigation }) =>
 					navigation.navigate("PhotoNavigation"),
-				tabBarIcon: (
-					<NavIcon name={Platform.OS === "ios" ? "ios-add" : "md-add"} />
+				tabBarIcon: ({ focused }) => (
+					<NavIcon
+						focused={focused}
+						size={28}
+						name={Platform.OS === "ios" ? "ios-add" : "md-add"}
+					/>
 				)
 			}
 		},
@@ -61,8 +73,19 @@ export default createBottomTabNavigator(
 				title: "Notifications"
 			}),
 			navigationOptions: {
-				tabBarIcon: (
-					<NavIcon name={Platform.OS === "ios" ? "ios-heart" : "md-heart"} />
+				tabBarIcon: ({ focused }) => (
+					<NavIcon
+						focused={focused}
+						name={
+							Platform.OS === "ios"
+								? focused
+									? "ios-heart"
+									: "ios-heart-empty"
+								: focused
+								? "md-heart"
+								: "md-heart-empty"
+						}
+					/>
 				)
 			}
 		},
@@ -71,15 +94,21 @@ export default createBottomTabNavigator(
 				title: "Profile"
 			}),
 			navigationOptions: {
-				tabBarIcon: (
-					<NavIcon name={Platform.OS === "ios" ? "ios-person" : "md-person"} />
+				tabBarIcon: ({ focused }) => (
+					<NavIcon
+						focused={focused}
+						name={Platform.OS === "ios" ? "ios-person" : "md-person"}
+					/>
 				)
 			}
 		}
 	},
 	{
 		tabBarOptions: {
-			showLabel: false
+			showLabel: false,
+			style: {
+				backgroundColor: "#FAFAFA"
+			}
 		}
 	}
 );
