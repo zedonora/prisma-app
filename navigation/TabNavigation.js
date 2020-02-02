@@ -9,6 +9,8 @@ import Profile from "../screens/Tabs/Profile";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcon";
 import { stackStyles } from "./config";
+import Detail from "../screens/Detail";
+import styles from "../styles";
 
 const stackFactory = (initialRoute, customConfig) =>
 	createStackNavigator(
@@ -16,6 +18,13 @@ const stackFactory = (initialRoute, customConfig) =>
 			initialRoute: {
 				screen: initialRoute,
 				navigationOptions: { ...customConfig }
+			},
+			Detail: {
+				screen: Detail,
+				navigationOptions: {
+					headerTintColor: styles.blackColor,
+					title: "Photo"
+				}
 			}
 		},
 		{
@@ -43,7 +52,7 @@ export default createBottomTabNavigator(
 		},
 		Search: {
 			screen: stackFactory(Search, {
-				title: "Search"
+				headerBackTitle: null
 			}),
 			navigationOptions: {
 				tabBarIcon: ({ focused }) => (
@@ -104,6 +113,7 @@ export default createBottomTabNavigator(
 		}
 	},
 	{
+		initialRouteName: "Search",
 		tabBarOptions: {
 			showLabel: false,
 			style: {
