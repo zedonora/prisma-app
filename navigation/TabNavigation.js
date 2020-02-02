@@ -11,6 +11,7 @@ import NavIcon from "../components/NavIcon";
 import { stackStyles } from "./config";
 import Detail from "../screens/Detail";
 import styles from "../styles";
+import UserProfile from "../components/UserProfile";
 
 const stackFactory = (initialRoute, customConfig) =>
 	createStackNavigator(
@@ -22,14 +23,21 @@ const stackFactory = (initialRoute, customConfig) =>
 			Detail: {
 				screen: Detail,
 				navigationOptions: {
-					headerTintColor: styles.blackColor,
 					title: "Photo"
 				}
+			},
+			UserDetail: {
+				screen: UserProfile,
+				navigationOptions: ({ navigation }) => ({
+					title: navigation.getParam("username")
+				})
 			}
 		},
 		{
 			defaultNavigationOptions: {
+				headerBackTitle: null,
 				headerTitleAlign: "center",
+				headerTintColor: styles.blackColor,
 				headerStyle: { ...stackStyles }
 			}
 		}
@@ -113,7 +121,7 @@ export default createBottomTabNavigator(
 		}
 	},
 	{
-		initialRouteName: "Search",
+		initialRouteName: "Profile",
 		tabBarOptions: {
 			showLabel: false,
 			style: {

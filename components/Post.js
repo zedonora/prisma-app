@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withNavigation } from "react-navigation";
 import { Image } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -65,7 +66,8 @@ const Post = ({
 	likeCount: likeCountProp,
 	caption,
 	comments = [],
-	isLiked: isLikedProp
+	isLiked: isLikedProp,
+	navigation
 }) => {
 	const [isLiked, setIsLiked] = useState(isLikedProp);
 	const [likeCount, setLikeCount] = useState(likeCountProp);
@@ -89,13 +91,19 @@ const Post = ({
 	return (
 		<Container>
 			<Header>
-				<Touchable>
+				<Touchable
+					onPress={() =>
+						navigation.navigate("UserDetail", { username: user.username })
+					}>
 					<Image
 						style={{ height: 40, width: 40, borderRadius: 20 }}
 						source={{ uri: user.avatar }}
 					/>
 				</Touchable>
-				<Touchable>
+				<Touchable
+					onPress={() =>
+						navigation.navigate("UserDetail", { username: user.username })
+					}>
 					<HeaderUserContainer>
 						<Bold>{user.username}</Bold>
 						<Location>{location}</Location>
@@ -179,4 +187,4 @@ Post.prototypes = {
 	location: PropTypes.string,
 	createdAt: PropTypes.string.isRequired
 };
-export default Post;
+export default withNavigation(Post);
