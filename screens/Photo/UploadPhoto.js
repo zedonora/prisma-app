@@ -2,10 +2,23 @@ import React, { useState } from "react";
 import { Image, ActivityIndicator, Alert } from "react-native";
 import axios from "axios";
 import styled from "styled-components/native";
+import { gql } from "apollo-boost";
+import { useMutation } from "react-apollo-hooks";
 import useInput from "../../hooks/useInput";
 import styles from "../../styles";
 import constants from "../../constants";
 import apolloClientOptions from "../../apollo";
+import { FEED_QUERY } from "../Tabs/Home";
+
+const UPLOAD = gql`
+	mutation upload($caption: String!, $files: [String!]!, $location: String) {
+		upload(caption: $caption, files: $files, location: $location) {
+			id
+			caption
+			location
+		}
+	}
+`;
 
 const View = styled.View`
 	flex: 1;
@@ -43,7 +56,9 @@ const Text = styled.Text`
 
 export default ({ navigation }) => {
 	const [loading, setLoading] = useState(false);
-	const [fileUrl, setFileUrl] = useState("");
+	const [uploadMutation] = useMutation(UPLOAD, {
+		refetchQueries: () => [{ query: FEED_QUERY }]
+	});
 	const photo = navigation.getParam("photo");
 	const captionInput = useInput("caption");
 	const locationInput = useInput("location");
@@ -60,17 +75,38 @@ export default ({ navigation }) => {
 			uri: photo.uri
 		});
 		try {
+			setLoading(true);
 			const {
+				//data: { location } => aws s3
 				data: { path }
 			} = await axios.post(axiosUri, formData, {
 				headers: {
 					"content-type": "multipart/form-data"
 				}
 			});
-			setFileUrl(path);
+			const filePath = apolloClientOptions.uri.toString() + path;
+
+			//setFileUrl(location ); => aws s3
+			//setFileUrl(path);
+			const {
+				data: { upload }
+			} = await uploadMutation({
+				variables: {
+					caption: captionInput.value,
+					location: locationInput.value,
+					files: [filePath]
+				}
+			});
+			console.log(upload);
+
+			if (upload.id) {
+				navigation.navigate("TabNavigation");
+			}
 		} catch (e) {
 			console.log(e);
 			Alert.alert("Can't upload", "Try later");
+		} finally {
+			setLoading(false);
 		}
 	};
 
