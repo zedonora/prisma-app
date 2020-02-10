@@ -127,12 +127,12 @@ UserProfile.propTypes = {
 	avatar: PropTypes.string.isRequired,
 	username: PropTypes.string.isRequired,
 	fullName: PropTypes.string.isRequired,
-	isFollowing: PropTypes.bool.isRequired,
+	isFollowing: PropTypes.bool,
 	isSelf: PropTypes.bool.isRequired,
 	bio: PropTypes.string.isRequired,
 	followingCount: PropTypes.number.isRequired,
 	followersCount: PropTypes.number.isRequired,
-	postsCount: PropTypes.number.isRequired,
+	postsCount: PropTypes.number,
 	posts: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,

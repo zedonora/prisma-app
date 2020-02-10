@@ -77,28 +77,23 @@ export default ({ navigation }) => {
 		try {
 			setLoading(true);
 			const {
-				//data: { location } => aws s3
-				data: { path }
+				data: { location } //=> aws s3
+				//data: { path }
 			} = await axios.post(axiosUri, formData, {
 				headers: {
 					"content-type": "multipart/form-data"
 				}
 			});
-			const filePath = apolloClientOptions.uri.toString() + path;
-
-			//setFileUrl(location ); => aws s3
-			//setFileUrl(path);
+			//const location = apolloClientOptions.uri.toString() + "/" + path;
 			const {
 				data: { upload }
 			} = await uploadMutation({
 				variables: {
 					caption: captionInput.value,
 					location: locationInput.value,
-					files: [filePath]
+					files: [location]
 				}
 			});
-			console.log(upload);
-
 			if (upload.id) {
 				navigation.navigate("TabNavigation");
 			}
